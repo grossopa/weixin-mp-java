@@ -14,6 +14,10 @@ weixin-mp-java
 1. 简便实用的前置条件：
    你的项目是基于Spring，Maven，Hibernate架构；
    你的项目至少有一个已经存在的配置文件；
+   需要在配置文件(例子：application.properties)中添加
+     wx_token=your_token
+     wx_appid=asdf
+     wx_appsecret=secret
    没有在线的Maven仓库，强烈建议clone代码到本地作为子工程使用；
 
 2. 如果你是通过spring-annotation配置bean的话，那么只要在你的Spring xml配置文件里加入以下两句便可：
