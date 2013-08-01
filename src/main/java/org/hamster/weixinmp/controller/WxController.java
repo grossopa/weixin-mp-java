@@ -71,7 +71,7 @@ public class WxController {
 			msg = wxService.saveMsgEvent(ele);
 			break;
 		}
-		WxRespText respText = wxService.createRestText("Only test message, please ignore this.", msg.getToUserName(), msg.getFromUserName(), 1);
+		WxRespText respText = wxService.createRespText("Only test message, please ignore this.", msg.getToUserName(), msg.getFromUserName(), 1);
 		return WxXmlUtil.getRespTextXML(respText).asXML();
 	}
 

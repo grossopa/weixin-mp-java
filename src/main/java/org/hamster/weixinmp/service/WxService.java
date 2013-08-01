@@ -20,13 +20,18 @@ import org.hamster.weixinmp.config.WxConfig;
 import org.hamster.weixinmp.constant.WxRespTypeEnum;
 import org.hamster.weixinmp.controller.util.WxXmlUtil;
 import org.hamster.weixinmp.dao.entity.auth.WxAuthReq;
+import org.hamster.weixinmp.dao.entity.item.WxItemMusic;
+import org.hamster.weixinmp.dao.entity.item.WxItemPicDesc;
 import org.hamster.weixinmp.dao.entity.msg.WxMsgEvent;
 import org.hamster.weixinmp.dao.entity.msg.WxMsgImg;
 import org.hamster.weixinmp.dao.entity.msg.WxMsgLink;
 import org.hamster.weixinmp.dao.entity.msg.WxMsgLoc;
 import org.hamster.weixinmp.dao.entity.msg.WxMsgText;
+import org.hamster.weixinmp.dao.entity.resp.WxRespMusic;
+import org.hamster.weixinmp.dao.entity.resp.WxRespPicDesc;
 import org.hamster.weixinmp.dao.entity.resp.WxRespText;
 import org.hamster.weixinmp.dao.repository.auth.WxAuthReqDao;
+import org.hamster.weixinmp.dao.repository.item.WxItemPicDescDao;
 import org.hamster.weixinmp.dao.repository.msg.WxMsgEventDao;
 import org.hamster.weixinmp.dao.repository.msg.WxMsgImgDao;
 import org.hamster.weixinmp.dao.repository.msg.WxMsgLinkDao;
@@ -72,6 +77,9 @@ public class WxService {
 	WxRespPicDescDao respPicDescDao;
 	@Autowired(required = false)
 	WxRespMusicDao respMusicDao;
+	
+	@Autowired(required = false)
+	WxItemPicDescDao wxItemPicDescDao;
 
 	@Setter
 	private String token;
@@ -160,7 +168,7 @@ public class WxService {
 		return msgEvent;
 	}
 
-	public WxRespText createRestText(String content, String fromUserName,
+	public WxRespText createRespText(String content, String fromUserName,
 			String toUserName, Integer funcFlag) {
 		WxRespText respText = new WxRespText();
 		respText.setContent(content);
@@ -176,6 +184,57 @@ public class WxService {
 
 		}
 		return respText;
+	}
+	
+	public WxRespPicDesc createRespPicDesc(List<WxItemPicDesc> articles, String fromUserName, String toUserName, Integer funcFlag) {
+		WxRespPicDesc respPicDesc = new WxRespPicDesc();
+		respPicDesc.setCreatedDate(new Date());
+		respPicDesc.setCreateTime(WxUtil.currentTimeInSec());
+		respPicDesc.setFromUserName(fromUserName);
+		respPicDesc.setToUserName(toUserName);
+		respPicDesc.setFuncFlag(funcFlag);
+		respPicDesc.setMsgType(WxRespTypeEnum.news.toString());
+		respPicDesc.setArticles(articles);
+		if (respPicDescDao != null) {
+			respPicDescDao.save(respPicDesc);
+		} else {
+			
+		}
+		return respPicDesc;
+	}
+	
+	public WxRespPicDesc createRespPicDesc2(List<Long> articleIds, String fromUserName, String toUserName, Integer funcFlag) {
+		WxRespPicDesc respPicDesc = new WxRespPicDesc();
+		respPicDesc.setCreatedDate(new Date());
+		respPicDesc.setCreateTime(WxUtil.currentTimeInSec());
+		respPicDesc.setFromUserName(fromUserName);
+		respPicDesc.setToUserName(toUserName);
+		respPicDesc.setFuncFlag(funcFlag);
+		respPicDesc.setMsgType(WxRespTypeEnum.news.toString());
+		respPicDesc.setArticles(wxItemPicDescDao.findByIdIn(articleIds));
+		if (respPicDescDao != null) {
+			respPicDescDao.save(respPicDesc);
+		} else {
+			
+		}
+		return respPicDesc;
+	}
+	
+	public WxRespMusic createRespMusic(String fromUserName, String toUserName, Integer funcFlag, WxItemMusic itemMusic) {
+		WxRespMusic respMusic = new WxRespMusic();
+		respMusic.setCreatedDate(new Date());
+		respMusic.setCreateTime(WxUtil.currentTimeInSec());
+		respMusic.setFromUserName(fromUserName);
+		respMusic.setToUserName(toUserName);
+		respMusic.setFuncFlag(funcFlag);
+		respMusic.setMsgType(WxRespTypeEnum.music.toString());
+		respMusic.setMusic(itemMusic);
+		if (respMusicDao != null) {
+			respMusicDao.save(respMusic);
+		} else {
+			
+		}
+		return respMusic;
 	}
 
 	private static String getStringToHash(String timestamp, String nonce,

@@ -13,5 +13,4 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  *
  */
 public interface WxRespPicDescDao extends PagingAndSortingRepository<WxRespPicDesc, Long> {
-
 }

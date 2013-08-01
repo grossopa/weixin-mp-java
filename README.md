@@ -21,8 +21,8 @@ weixin-mp-java
    没有在线的Maven仓库，强烈建议clone代码到本地作为子工程使用；<br />
 
 2. 如果你是通过spring-annotation配置bean的话，那么只要在你的Spring xml配置文件里加入以下两句便可：<br />
-   	<context:component-scan base-package="com.hamster.weixinmp" /><br />
-	<util:properties id="wxProperties" location="classpath:/application.properties"/><br />
+   	&lt;context:component-scan base-package="com.hamster.weixinmp" /&gt;<br />
+	&lt;util:properties id="wxProperties" location="classpath:/application.properties"/&gt;<br />
    如果没有util的话，在beans xml声明中加入：<br />
       xmlns:util="http://www.springframework.org/schema/util"<br />
       xsi:schemaLocation="…..<br />

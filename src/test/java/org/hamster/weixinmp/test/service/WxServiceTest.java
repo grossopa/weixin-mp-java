@@ -35,7 +35,7 @@ public class WxServiceTest extends AbstractServiceTest {
 	
 	@Test
 	public void testCreateRespText() throws DocumentException {
-		WxRespText respText = wxService.createRestText("this is a content", "foo", "bar", 0);
+		WxRespText respText = wxService.createRespText("this is a content", "foo", "bar", 0);
 		WxXmlUtil.getRespTextXML(respText);
 	}
 
