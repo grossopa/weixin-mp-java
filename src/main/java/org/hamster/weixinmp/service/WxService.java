@@ -3,6 +3,9 @@
  */
 package org.hamster.weixinmp.service;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -13,15 +16,26 @@ import java.util.List;
 import lombok.Setter;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.hamster.weixinmp.config.WxConfig;
 import org.hamster.weixinmp.constant.WxRespTypeEnum;
+import org.hamster.weixinmp.controller.util.WxJsonUtil;
 import org.hamster.weixinmp.controller.util.WxXmlUtil;
+import org.hamster.weixinmp.dao.entity.auth.WxAuth;
 import org.hamster.weixinmp.dao.entity.auth.WxAuthReq;
 import org.hamster.weixinmp.dao.entity.item.WxItemMusic;
 import org.hamster.weixinmp.dao.entity.item.WxItemPicDesc;
+import org.hamster.weixinmp.dao.entity.menu.WxMenuBtn;
 import org.hamster.weixinmp.dao.entity.msg.WxMsgEvent;
 import org.hamster.weixinmp.dao.entity.msg.WxMsgImg;
 import org.hamster.weixinmp.dao.entity.msg.WxMsgLink;
@@ -30,8 +44,10 @@ import org.hamster.weixinmp.dao.entity.msg.WxMsgText;
 import org.hamster.weixinmp.dao.entity.resp.WxRespMusic;
 import org.hamster.weixinmp.dao.entity.resp.WxRespPicDesc;
 import org.hamster.weixinmp.dao.entity.resp.WxRespText;
+import org.hamster.weixinmp.dao.repository.auth.WxAuthDao;
 import org.hamster.weixinmp.dao.repository.auth.WxAuthReqDao;
 import org.hamster.weixinmp.dao.repository.item.WxItemPicDescDao;
+import org.hamster.weixinmp.dao.repository.menu.WxMenuBtnDao;
 import org.hamster.weixinmp.dao.repository.msg.WxMsgEventDao;
 import org.hamster.weixinmp.dao.repository.msg.WxMsgImgDao;
 import org.hamster.weixinmp.dao.repository.msg.WxMsgLinkDao;
@@ -41,11 +57,12 @@ import org.hamster.weixinmp.dao.repository.resp.WxRespMusicDao;
 import org.hamster.weixinmp.dao.repository.resp.WxRespPicDescDao;
 import org.hamster.weixinmp.dao.repository.resp.WxRespTextDao;
 import org.hamster.weixinmp.exception.WxException;
+import org.hamster.weixinmp.model.WxAccessTokenJson;
+import org.hamster.weixinmp.model.WxErrorJson;
 import org.hamster.weixinmp.util.WxUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
 
 /**
  * @author grossopaforever@gmail.com
@@ -57,6 +74,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class WxService {
 	public static final Logger log = Logger.getLogger(WxService.class);
 
+	public static final String DEFAULT_MENU_CREATE_URL = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN";
+	public static final String DEFAULT_GET_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
+
+	@Autowired(required = false)
+	WxAuthDao wxAuthDao;
 	@Autowired(required = false)
 	WxAuthReqDao authReqDao;
 
@@ -77,20 +99,24 @@ public class WxService {
 	WxRespPicDescDao respPicDescDao;
 	@Autowired(required = false)
 	WxRespMusicDao respMusicDao;
-	
 	@Autowired(required = false)
 	WxItemPicDescDao wxItemPicDescDao;
+
+	@Autowired(required = false)
+	WxMenuBtnDao wxMenuBtnDao;
 
 	@Setter
 	private String token;
 
-	@Autowired
+	@Autowired(required = false)
 	WxConfig wxConfig;
 
 	public boolean validateAuth(String signature, String timestamp,
 			String nonce, String echostr) throws WxException {
 		if (StringUtils.isBlank(token)) {
-			token = wxConfig.getToken();
+			if (wxConfig != null) {
+				token = wxConfig.getToken();
+			}
 			if (StringUtils.isBlank(token)) {
 				throw new WxException("token must not be blank!");
 			}
@@ -185,8 +211,9 @@ public class WxService {
 		}
 		return respText;
 	}
-	
-	public WxRespPicDesc createRespPicDesc(List<WxItemPicDesc> articles, String fromUserName, String toUserName, Integer funcFlag) {
+
+	public WxRespPicDesc createRespPicDesc(List<WxItemPicDesc> articles,
+			String fromUserName, String toUserName, Integer funcFlag) {
 		WxRespPicDesc respPicDesc = new WxRespPicDesc();
 		respPicDesc.setCreatedDate(new Date());
 		respPicDesc.setCreateTime(WxUtil.currentTimeInSec());
@@ -198,12 +225,13 @@ public class WxService {
 		if (respPicDescDao != null) {
 			respPicDescDao.save(respPicDesc);
 		} else {
-			
+
 		}
 		return respPicDesc;
 	}
-	
-	public WxRespPicDesc createRespPicDesc2(List<Long> articleIds, String fromUserName, String toUserName, Integer funcFlag) {
+
+	public WxRespPicDesc createRespPicDesc2(List<Long> articleIds,
+			String fromUserName, String toUserName, Integer funcFlag) {
 		WxRespPicDesc respPicDesc = new WxRespPicDesc();
 		respPicDesc.setCreatedDate(new Date());
 		respPicDesc.setCreateTime(WxUtil.currentTimeInSec());
@@ -215,12 +243,13 @@ public class WxService {
 		if (respPicDescDao != null) {
 			respPicDescDao.save(respPicDesc);
 		} else {
-			
+
 		}
 		return respPicDesc;
 	}
-	
-	public WxRespMusic createRespMusic(String fromUserName, String toUserName, Integer funcFlag, WxItemMusic itemMusic) {
+
+	public WxRespMusic createRespMusic(String fromUserName, String toUserName,
+			Integer funcFlag, WxItemMusic itemMusic) {
 		WxRespMusic respMusic = new WxRespMusic();
 		respMusic.setCreatedDate(new Date());
 		respMusic.setCreateTime(WxUtil.currentTimeInSec());
@@ -232,9 +261,97 @@ public class WxService {
 		if (respMusicDao != null) {
 			respMusicDao.save(respMusic);
 		} else {
-			
+
 		}
 		return respMusic;
+	}
+
+	// ///////////////
+	// common parts //
+	// ///////////////
+	public WxAuth getAccessToken(String appid, String appsecret)
+			throws WxException {
+		HttpClient client = new DefaultHttpClient();
+		HttpGet get = new HttpGet();
+		try {
+			if (wxConfig != null) {
+				get.setURI(new URI(getParameterizedUrl(
+						wxConfig.getMenuCreateUrl(), "APPID", appid,
+						"APPSECRET", appsecret)));
+			} else {
+				get.setURI(new URI(getParameterizedUrl(DEFAULT_GET_TOKEN_URL,
+						"APPID", appid, "APPSECRET", appsecret)));
+			}
+			HttpResponse response = client.execute(get);
+			HttpEntity entity = response.getEntity();
+			String respBody = EntityUtils.toString(entity);
+			if (entity != null) {
+				EntityUtils.consume(entity);
+			}
+			WxErrorJson errorObj = WxJsonUtil.toWxErrorJson(respBody);
+			if (errorObj != null) {
+				throw new WxException(errorObj);
+			} else {
+				WxAccessTokenJson tokenJson = WxJsonUtil.toAccessTokenJson(respBody);
+				WxAuth auth = new WxAuth("client_credential", appid, appsecret, tokenJson.getAccess_token());
+				if (wxAuthDao != null) {
+					wxAuthDao.save(auth);
+				} else {
+					
+				}
+				return auth;
+			}
+		} catch (URISyntaxException e) {
+			throw new WxException(e);
+		} catch (IOException e) {
+			throw new WxException(e);
+		}
+	}
+
+	// /////////////
+	// menu parts //
+	// /////////////
+	public void createMenu(List<WxMenuBtn> wxMenuBtnList, String accessToken)
+			throws WxException {
+		HttpClient client = new DefaultHttpClient();
+		HttpPost post = new HttpPost();
+		try {
+			post.setURI(new URI(wxConfig.getMenuCreateUrl()));
+			if (wxConfig != null) {
+				post.setURI(new URI(getParameterizedUrl(
+						wxConfig.getMenuCreateUrl(), "ACCESS_TOKEN",
+						accessToken)));
+			} else {
+				post.setURI(new URI(getParameterizedUrl(
+						DEFAULT_MENU_CREATE_URL, "ACCESS_TOKEN", accessToken)));
+			}
+			post.setEntity(new StringEntity(WxJsonUtil
+					.toMenuCreateReqBody(wxMenuBtnList)));
+			HttpResponse response = client.execute(post);
+			HttpEntity entity = response.getEntity();
+			String respBody = EntityUtils.toString(entity);
+			if (entity != null) {
+				EntityUtils.consume(entity);
+			}
+			WxErrorJson errorObj = WxJsonUtil.toWxErrorJson(respBody);
+			if (errorObj != null) {
+				throw new WxException(errorObj);
+			}
+		} catch (URISyntaxException e) {
+			throw new WxException(e);
+		} catch (IOException e) {
+			throw new WxException(e);
+		}
+	}
+
+	private static String getParameterizedUrl(String url, String... args) {
+		String result = url;
+		for (int i = 0; i < args.length; i += 2) {
+			String p = args[i];
+			String v = args[i + 1];
+			result = result.replaceAll(p, v);
+		}
+		return result;
 	}
 
 	private static String getStringToHash(String timestamp, String nonce,
@@ -260,9 +377,10 @@ public class WxService {
 			MessageDigest md = MessageDigest.getInstance("SHA-1");
 			byte[] b = md.digest(str.getBytes());
 			StringBuffer sb = new StringBuffer();
-	        for (int i = 0; i < b.length; i++) {
-	          sb.append(Integer.toString((b[i] & 0xff) + 0x100, 16).substring(1));
-	        }
+			for (int i = 0; i < b.length; i++) {
+				sb.append(Integer.toString((b[i] & 0xff) + 0x100, 16)
+						.substring(1));
+			}
 			return sb.toString();
 		} catch (NoSuchAlgorithmException e) {
 			// never happens

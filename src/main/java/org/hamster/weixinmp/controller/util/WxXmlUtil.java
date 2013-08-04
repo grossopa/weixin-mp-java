@@ -289,7 +289,7 @@ public class WxXmlUtil {
 		ele.addElement("FromUserName").addCDATA(entity.getFromUserName());
 		ele.addElement("CreateTime").setText(String.valueOf(entity.getCreateTime()));
 		ele.addElement("MsgType").addCDATA(entity.getMsgType());
-		// ele.addElement("FuncFlag").setText(String.valueOf(entity.getFuncFlag()));
+		ele.addElement("FuncFlag").setText(String.valueOf(entity.getFuncFlag()));
 		return ele;
 	}
 

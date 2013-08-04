@@ -3,6 +3,10 @@
  */
 package org.hamster.weixinmp.exception;
 
+import lombok.Getter;
+
+import org.hamster.weixinmp.model.WxErrorJson;
+
 /**
  * @author grossopaforever@gmail.com
  * @version Jul 28, 2013
@@ -11,6 +15,8 @@ package org.hamster.weixinmp.exception;
 public class WxException extends Exception {
 
 	private static final long serialVersionUID = -5181800588832010641L;
+	@Getter
+	private WxErrorJson error;
 
 	/**
 	 * 
@@ -40,4 +46,12 @@ public class WxException extends Exception {
 		super(message, cause);
 	}
 
+	
+	/**
+	 * 
+	 */
+	public WxException(WxErrorJson errorJson) {
+		super(errorJson.getErrmsg());
+		this.error = errorJson;
+	}
 }

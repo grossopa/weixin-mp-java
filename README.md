@@ -3,9 +3,7 @@ weixin-mp-java
 
 基于Java，Spring，Maven实现的微信公众平台一整套代码，从前端Controller到后端的Dao的实现<br />
 
-实现功能：消息接口<br />
-
-未实现功能：通用接口和菜单接口（没内测号命苦啊）<br />
+实现功能：消息接口,通用接口和菜单接口（没有内测号无法测试）<br />
 
 ==============
 
@@ -27,8 +25,7 @@ weixin-mp-java
       xmlns:util="http://www.springframework.org/schema/util"<br />
       xsi:schemaLocation="…..<br />
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd"<br />
-
-2.5. 又或者你实在很懒，那就直接在spring中include默认的配置文件applicationContext-weixinmp.xml便可……<br />
+   在org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean的packageToScan中添加org.hamster.weixinmp.dao
 
 3. 如果不想用数据库，那么只扫描com.hamster.weixinmp.service和com.hamster.weixinmp.controller即可，所有的dao在wxService中配置模式均为可选，如果没有注入，则不会执行存储操作；<br />
 
