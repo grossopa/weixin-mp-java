@@ -33,6 +33,8 @@ import org.hamster.weixinmp.controller.util.WxJsonUtil;
 import org.hamster.weixinmp.controller.util.WxXmlUtil;
 import org.hamster.weixinmp.dao.entity.auth.WxAuth;
 import org.hamster.weixinmp.dao.entity.auth.WxAuthReq;
+import org.hamster.weixinmp.dao.entity.base.WxBaseMsgEntity;
+import org.hamster.weixinmp.dao.entity.base.WxBaseRespEntity;
 import org.hamster.weixinmp.dao.entity.item.WxItemMusic;
 import org.hamster.weixinmp.dao.entity.item.WxItemPicDesc;
 import org.hamster.weixinmp.dao.entity.menu.WxMenuBtn;
@@ -78,38 +80,38 @@ public class WxService {
 	public static final String DEFAULT_GET_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
 
 	@Autowired(required = false)
-	WxAuthDao wxAuthDao;
+	protected WxAuthDao wxAuthDao;
 	@Autowired(required = false)
-	WxAuthReqDao authReqDao;
+	protected WxAuthReqDao authReqDao;
 
 	@Autowired(required = false)
-	WxMsgTextDao msgTextDao;
+	protected WxMsgTextDao msgTextDao;
 	@Autowired(required = false)
-	WxMsgImgDao msgImgDao;
+	protected WxMsgImgDao msgImgDao;
 	@Autowired(required = false)
-	WxMsgLinkDao msgLinkDao;
+	protected WxMsgLinkDao msgLinkDao;
 	@Autowired(required = false)
-	WxMsgLocDao msgLocDao;
+	protected WxMsgLocDao msgLocDao;
 	@Autowired(required = false)
-	WxMsgEventDao msgEventDao;
+	protected WxMsgEventDao msgEventDao;
 
 	@Autowired(required = false)
-	WxRespTextDao respTextDao;
+	protected WxRespTextDao respTextDao;
 	@Autowired(required = false)
-	WxRespPicDescDao respPicDescDao;
+	protected WxRespPicDescDao respPicDescDao;
 	@Autowired(required = false)
-	WxRespMusicDao respMusicDao;
+	protected WxRespMusicDao respMusicDao;
 	@Autowired(required = false)
-	WxItemPicDescDao wxItemPicDescDao;
+	protected WxItemPicDescDao wxItemPicDescDao;
 
 	@Autowired(required = false)
-	WxMenuBtnDao wxMenuBtnDao;
+	protected WxMenuBtnDao wxMenuBtnDao;
 
 	@Setter
-	private String token;
+	protected String token;
 
 	@Autowired(required = false)
-	WxConfig wxConfig;
+	protected WxConfig wxConfig;
 
 	public boolean validateAuth(String signature, String timestamp,
 			String nonce, String echostr) throws WxException {
@@ -343,8 +345,13 @@ public class WxService {
 			throw new WxException(e);
 		}
 	}
+	
+	public WxBaseRespEntity handleMessage(WxBaseMsgEntity msg) {
+		WxRespText respText = createRespText("Only test message, please ignore this.", msg.getToUserName(), msg.getFromUserName(), 1);
+		return respText;
+	}
 
-	private static String getParameterizedUrl(String url, String... args) {
+	protected static String getParameterizedUrl(String url, String... args) {
 		String result = url;
 		for (int i = 0; i < args.length; i += 2) {
 			String p = args[i];
@@ -354,7 +361,7 @@ public class WxService {
 		return result;
 	}
 
-	private static String getStringToHash(String timestamp, String nonce,
+	protected static String getStringToHash(String timestamp, String nonce,
 			String token) {
 		List<String> list = new ArrayList<String>();
 		list.add(timestamp);
@@ -372,7 +379,7 @@ public class WxService {
 
 	/**
 	 */
-	private static String hash(String str) {
+	protected static String hash(String str) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA-1");
 			byte[] b = md.digest(str.getBytes());

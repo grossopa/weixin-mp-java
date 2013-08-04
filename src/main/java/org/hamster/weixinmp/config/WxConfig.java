@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Configuration;
  * @version Jul 29, 2013
  *
  */
-@Configuration
 @Data
+@Configuration
 public class WxConfig {
 	private @Value("#{wxProperties.wx_token}") String token;
 	private @Value("#{wxProperties.wx_appid}") String appid;

@@ -3,12 +3,17 @@
  */
 package org.hamster.weixinmp.controller;
 
+import lombok.Setter;
+
 import org.apache.log4j.Logger;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.hamster.weixinmp.constant.WxReqTypeEnum;
 import org.hamster.weixinmp.controller.util.WxXmlUtil;
 import org.hamster.weixinmp.dao.entity.base.WxBaseMsgEntity;
+import org.hamster.weixinmp.dao.entity.base.WxBaseRespEntity;
+import org.hamster.weixinmp.dao.entity.resp.WxRespMusic;
+import org.hamster.weixinmp.dao.entity.resp.WxRespPicDesc;
 import org.hamster.weixinmp.dao.entity.resp.WxRespText;
 import org.hamster.weixinmp.exception.WxException;
 import org.hamster.weixinmp.service.WxService;
@@ -32,6 +37,7 @@ public class WxController {
 	private static final Logger log = Logger.getLogger(WxController.class);
 	
 	@Autowired
+	@Setter
 	private WxService wxService;
 	
 	@RequestMapping(method = RequestMethod.GET)
@@ -71,8 +77,15 @@ public class WxController {
 			msg = wxService.saveMsgEvent(ele);
 			break;
 		}
-		WxRespText respText = wxService.createRespText("Only test message, please ignore this.", msg.getToUserName(), msg.getFromUserName(), 1);
-		return WxXmlUtil.getRespTextXML(respText).asXML();
+		WxBaseRespEntity resp = wxService.handleMessage(msg);
+		if (resp instanceof WxRespText) {
+			return WxXmlUtil.getRespTextXML((WxRespText)resp).asXML();
+		} else if (resp instanceof WxRespPicDesc) {
+			return WxXmlUtil.getRespPicDesc((WxRespPicDesc)resp).asXML();
+		} else if (resp instanceof WxRespMusic) {
+			return WxXmlUtil.getRespMusic((WxRespMusic)resp).asXML();
+		}
+		return "";
 	}
 
 }
