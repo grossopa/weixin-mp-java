@@ -10,9 +10,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hamster.weixinmp.config.WxConfig;
 import org.hamster.weixinmp.dao.entity.base.WxBaseRespEntity;
-import org.hamster.weixinmp.dao.entity.item.WxItemPicDesc;
+import org.hamster.weixinmp.dao.entity.item.WxItemPicDescEntity;
 
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -23,21 +25,13 @@ import lombok.ToString;
  * 
  */
 @Entity
-@Table(name = "wx_resp_pic_desc")
+@Table(name = WxConfig.TABLE_PREFIX + "resp_pic_desc")
+@Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class WxRespPicDesc extends WxBaseRespEntity {
-
-	private List<WxItemPicDesc> articles;
+public class WxRespPicDescEntity extends WxBaseRespEntity {
 
 	@ManyToMany
 	@JoinTable(name = "wx_resp_pic_desc_item")
-	public List<WxItemPicDesc> getArticles() {
-		return articles;
-	}
-
-	public void setArticles(List<WxItemPicDesc> articles) {
-		this.articles = articles;
-	}
-
+	private List<WxItemPicDescEntity> articles;
 }

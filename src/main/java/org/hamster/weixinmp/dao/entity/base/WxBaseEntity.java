@@ -11,37 +11,30 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
  * @author grossopaforever@gmail.com
  * @version Jul 27, 2013
- *
+ * 
  */
 @MappedSuperclass
+@Data
 @ToString(callSuper = false)
+@EqualsAndHashCode
 public abstract class WxBaseEntity {
-
-	protected Long id;
-	protected Date createdDate;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
+	@Expose(serialize = false, deserialize = false)
+	@SerializedName("_id")
+	protected Long id;
 	@Column(name = "created_date")
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-
+	@Expose(serialize = false, deserialize = false)
+	@SerializedName("_createddate")
+	protected Date createdDate;
 }

@@ -1,9 +1,9 @@
 /**
  * 
  */
-package org.hamster.weixinmp.dao.repository.item;
+package org.hamster.weixinmp.dao.repository.msg;
 
-import org.hamster.weixinmp.dao.entity.item.WxItemMusicEntity;
+import org.hamster.weixinmp.dao.entity.msg.WxMsgImageEntity;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +14,6 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository
-public interface WxItemMusicDao extends PagingAndSortingRepository<WxItemMusicEntity, Long> {
+public interface WxMsgImageDao extends PagingAndSortingRepository<WxMsgImageEntity, Long> {
 
 }

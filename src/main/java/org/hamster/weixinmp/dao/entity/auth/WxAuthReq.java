@@ -9,9 +9,9 @@ import javax.persistence.Table;
 
 import org.hamster.weixinmp.dao.entity.base.WxBaseEntity;
 
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-
 
 /**
  * @author grossopaforever@gmail.com
@@ -19,43 +19,16 @@ import lombok.ToString;
  */
 @Entity
 @Table(name = "wx_auth_req")
+@Data
 @ToString
 @EqualsAndHashCode(callSuper = true)
 public class WxAuthReq extends WxBaseEntity {
-  
+	@Column(name = "signature", length = 100, nullable = false)
 	private String signature;
+	@Column(name = "timestamp", length = 50, nullable = false)
 	private String timestamp;
+	@Column(name = "nonce", length = 50, nullable = false)
 	private String nonce;
+	@Column(name = "echostr", length = 200, nullable = false)
 	private String echostr;
-	
-	@Column(name="signature", length = 100, nullable = false)
-	public String getSignature() {
-		return signature;
-	}
-	
-	@Column(name="timestamp", length = 50, nullable = false)
-	public String getTimestamp() {
-		return timestamp;
-	}
-	@Column(name="nonce", length = 50, nullable = false)
-	public String getNonce() {
-		return nonce;
-	}
-	@Column(name="echostr", length = 200, nullable = false)
-	public String getEchostr() {
-		return echostr;
-	}
-	public void setSignature(String signature) {
-		this.signature = signature;
-	}
-	public void setTimestamp(String timestamp) {
-		this.timestamp = timestamp;
-	}
-	public void setNonce(String nonce) {
-		this.nonce = nonce;
-	}
-	public void setEchostr(String echostr) {
-		this.echostr = echostr;
-	}
-
 }

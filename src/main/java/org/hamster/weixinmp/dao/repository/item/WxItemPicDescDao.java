@@ -5,8 +5,9 @@ package org.hamster.weixinmp.dao.repository.item;
 
 import java.util.List;
 
-import org.hamster.weixinmp.dao.entity.item.WxItemPicDesc;
+import org.hamster.weixinmp.dao.entity.item.WxItemPicDescEntity;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
 
 
 /**
@@ -14,11 +15,12 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  * @version Jul 28, 2013
  *
  */
-public interface WxItemPicDescDao extends PagingAndSortingRepository<WxItemPicDesc, Long> {
+@Repository
+public interface WxItemPicDescDao extends PagingAndSortingRepository<WxItemPicDescEntity, Long> {
 	/**
 	 * 
 	 * @param ids
 	 * @return
 	 */
-	List<WxItemPicDesc> findByIdIn(List<Long> ids);
+	List<WxItemPicDescEntity> findByIdIn(List<Long> ids);
 }

@@ -3,8 +3,9 @@
  */
 package org.hamster.weixinmp.dao.repository.msg;
 
-import org.hamster.weixinmp.dao.entity.msg.WxMsgEvent;
+import org.hamster.weixinmp.dao.entity.msg.WxMsgEventEntity;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
 
 
 /**
@@ -12,6 +13,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  * @version Jul 28, 2013
  *
  */
-public interface WxMsgEventDao extends PagingAndSortingRepository<WxMsgEvent, Long> {
+@Repository
+public interface WxMsgEventDao extends PagingAndSortingRepository<WxMsgEventEntity, Long> {
 
 }

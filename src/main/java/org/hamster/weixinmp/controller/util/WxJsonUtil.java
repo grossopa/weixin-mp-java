@@ -5,10 +5,10 @@ package org.hamster.weixinmp.controller.util;
 
 import java.util.List;
 
-import org.hamster.weixinmp.dao.entity.menu.WxMenuBtn;
+import org.hamster.weixinmp.dao.entity.menu.WxMenuBtnEntity;
 import org.hamster.weixinmp.model.WxAccessTokenJson;
-import org.hamster.weixinmp.model.WxErrorJson;
-import org.hamster.weixinmp.model.WxMenuCreateJson;
+import org.hamster.weixinmp.model.WxRespCode;
+import org.hamster.weixinmp.model.menu.WxMenuCreateJson;
 
 import com.google.gson.Gson;
 
@@ -23,15 +23,15 @@ public class WxJsonUtil {
 	private WxJsonUtil() {
 	}
 	
-	public static final String toMenuCreateReqBody(List<WxMenuBtn> wxMenuBtnList) {
+	public static final String toMenuCreateReqBody(List<WxMenuBtnEntity> wxMenuBtnList) {
 		Gson gson = new Gson();
 		return gson.toJson(new WxMenuCreateJson(wxMenuBtnList));
 	}
 	
-	public static final WxErrorJson toWxErrorJson(String errorResult) {
+	public static final WxRespCode toWxErrorJson(String errorResult) {
 		if (errorResult != null && (errorResult.startsWith("{\"errcode")
 				|| errorResult.startsWith("{\"errmsg"))) {
-			return new Gson().fromJson(errorResult, WxErrorJson.class);
+			return new Gson().fromJson(errorResult, WxRespCode.class);
 		}
 		return null;
 	}

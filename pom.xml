@@ -9,19 +9,20 @@
 	<properties>
 		<!-- version definitions of dependencies -->
 		<lombok.version>0.11.0</lombok.version>
-		<spring-data-jpa.version>1.2.0.RELEASE</spring-data-jpa.version>
+		<spring-data-jpa.version>1.3.2.RELEASE</spring-data-jpa.version>
 		<cglib.version>2.2.2</cglib.version>
 		<spring.version>3.1.3.RELEASE</spring.version>
 		<slf4j.version>1.7.2</slf4j.version>
 		<log4j.version>1.2.17</log4j.version>
 		<commons-io.version>2.4</commons-io.version>
-		<httpclient.version>4.2.2</httpclient.version>
+		<httpclient.version>4.3.1</httpclient.version>
 		<commons-lang3.version>3.1</commons-lang3.version>
 		<hibernate.version>4.1.8.Final</hibernate.version>
 		<commons-httpclient.version>3.0.1</commons-httpclient.version>
 		<h2.version>1.3.170</h2.version>
 		<junit.version>4.11</junit.version>
 		<gson.version>2.2.4</gson.version>
+		<guava.version>15.0</guava.version>
 	</properties>
 
 	<dependencyManagement>
@@ -54,6 +55,12 @@
 				<groupId>com.google.code.gson</groupId>
 				<artifactId>gson</artifactId>
 				<version>${gson.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${guava.version}</version>
 			</dependency>
 
 			<!-- web begin -->
@@ -96,6 +103,12 @@
 				<artifactId>httpclient</artifactId>
 				<version>${httpclient.version}</version>
 			</dependency>
+			<dependency>
+	<groupId>org.apache.httpcomponents</groupId>
+	<artifactId>httpmime</artifactId>
+	<version>${httpclient.version}</version>
+</dependency>
+			
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-lang3</artifactId>
@@ -165,6 +178,11 @@
 			<artifactId>gson</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+
 		<!-- web begin -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -197,6 +215,10 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>

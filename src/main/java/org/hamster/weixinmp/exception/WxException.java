@@ -5,7 +5,7 @@ package org.hamster.weixinmp.exception;
 
 import lombok.Getter;
 
-import org.hamster.weixinmp.model.WxErrorJson;
+import org.hamster.weixinmp.model.WxRespCode;
 
 /**
  * @author grossopaforever@gmail.com
@@ -16,7 +16,7 @@ public class WxException extends Exception {
 
 	private static final long serialVersionUID = -5181800588832010641L;
 	@Getter
-	private WxErrorJson error;
+	private WxRespCode error;
 
 	/**
 	 * 
@@ -50,7 +50,7 @@ public class WxException extends Exception {
 	/**
 	 * 
 	 */
-	public WxException(WxErrorJson errorJson) {
+	public WxException(WxRespCode errorJson) {
 		super(errorJson.getErrmsg());
 		this.error = errorJson;
 	}

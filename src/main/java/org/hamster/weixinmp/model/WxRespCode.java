@@ -3,12 +3,9 @@
  */
 package org.hamster.weixinmp.model;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import org.hamster.weixinmp.dao.entity.menu.WxMenuBtn;
+import lombok.NoArgsConstructor;
 
 /**
  * @author grossopaforever@gmail.com
@@ -16,9 +13,10 @@ import org.hamster.weixinmp.dao.entity.menu.WxMenuBtn;
  *
  */
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
-public class WxMenuCreateJson {
-
-	private List<WxMenuBtn> button;
+public class WxRespCode {
+	private Integer errcode;
+	private String errmsg;
 
 }

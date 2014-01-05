@@ -14,9 +14,11 @@
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd"
 	default-lazy-init="true">
 
-	<description>Spring Service Configration</description>
+	<description>WX Service Configration</description>
+	
+		<util:properties id="wxProperties"
+		location="classpath:/wx.properties" />
 
 	<!-- scan service class with @components -->
 	<context:component-scan base-package="org.hamster.weixinmp" />
-	<util:properties id="wxProperties" location="classpath:/application.development.properties"/>
 </beans>

@@ -4,8 +4,15 @@
 package org.hamster.weixinmp.dao.entity.base;
 
 import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 
+import org.hamster.weixinmp.config.WxConfig;
+
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -14,59 +21,24 @@ import lombok.ToString;
  * @version Jul 28, 2013
  * 
  */
-@MappedSuperclass
+
+@Entity
+@Table(name = WxConfig.TABLE_PREFIX + "msg_base")
+@DiscriminatorColumn(name = "msg_type", length = 20)
+@Inheritance(strategy = InheritanceType.JOINED)
+@Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public abstract class WxBaseMsgEntity extends WxBaseEntity {
 
+	@Column(name = "to_user_name", length = WxConfig.COL_LEN_USER_NAME, nullable = false)
 	protected String toUserName;
+	@Column(name = "from_user_name", length = WxConfig.COL_LEN_USER_NAME, nullable = false)
 	protected String fromUserName;
-	protected Long createTime;
-	protected String msgType;
-	protected Long msgId;
-
-	@Column(name = "to_user_name", length = 100, nullable = false)
-	public String getToUserName() {
-		return toUserName;
-	}
-
-	@Column(name = "from_user_name", length = 100, nullable = false)
-	public String getFromUserName() {
-		return fromUserName;
-	}
-
 	@Column(name = "create_time", nullable = false)
-	public Long getCreateTime() {
-		return createTime;
-	}
-
-	@Column(name = "msg_type", length = 20, nullable = false)
-	public String getMsgType() {
-		return msgType;
-	}
-
+	protected Long createTime;
+	@Column(name = "msg_type", length = WxConfig.COL_LEN_INDICATOR, nullable = false)
+	protected String msgType;
 	@Column(name = "msg_id", nullable = true)
-	public Long getMsgId() {
-		return msgId;
-	}
-
-	public void setToUserName(String toUserName) {
-		this.toUserName = toUserName;
-	}
-
-	public void setFromUserName(String fromUserName) {
-		this.fromUserName = fromUserName;
-	}
-
-	public void setCreateTime(Long createTime) {
-		this.createTime = createTime;
-	}
-
-	public void setMsgType(String msgType) {
-		this.msgType = msgType;
-	}
-
-	public void setMsgId(Long msgId) {
-		this.msgId = msgId;
-	}
+	protected Long msgId;
 }

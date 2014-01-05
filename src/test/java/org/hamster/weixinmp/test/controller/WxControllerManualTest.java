@@ -14,13 +14,11 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.hamster.weixinmp.test.xml.WxXMLUtilTest;
-import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -31,39 +29,11 @@ import org.junit.Test;
 public class WxControllerManualTest {
 	
 	public static final String WX_URL = "http://localhost:8080/rest/weixinmp";
-
-	@Test
-	@Ignore
-	public void testGet() throws ClientProtocolException, IOException {
-		HttpClient httpclient = new DefaultHttpClient();
-		HttpGet httpget = new HttpGet(WX_URL);
-
-		// Request parameters and other properties.
-		List<NameValuePair> params = new ArrayList<NameValuePair>(2);
-		params.add(new BasicNameValuePair("signature", "9d31490b4386ad3bb9bbb8ac5150fb3e6230c171"));
-		params.add(new BasicNameValuePair("echostr", "5906019193781128573"));
-		params.add(new BasicNameValuePair("timestamp", "1375112572"));
-		params.add(new BasicNameValuePair("nonce", "1375102247"));
-		
-		//Execute and get the response.
-		HttpResponse response = httpclient.execute(httpget);
-		HttpEntity entity = response.getEntity();
-
-		if (entity != null) {
-		    InputStream instream = entity.getContent();
-		    try {
-		    	String result = IOUtils.toString(instream);
-		    	System.out.println(result);
-		    } finally {
-		        instream.close();
-		    }
-		}
-	}
 	
-	//@Test
+	@Test 
 	//@Ignore
 	public void testPostMsgText() throws ClientProtocolException, IOException {
-		HttpClient httpclient = new DefaultHttpClient();
+		HttpClient httpclient = HttpClientBuilder.create().build();
 		HttpPost httppost = new HttpPost(WX_URL);
 
 		// Request parameters and other properties.
@@ -85,7 +55,7 @@ public class WxControllerManualTest {
 		    	System.out.println(result);
 		    } finally {
 		        instream.close();
-		    }
+		    } 
 		}
 	}
 	

@@ -7,10 +7,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.hamster.weixinmp.dao.entity.base.WxBaseRespEntity;
-
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+
+import org.hamster.weixinmp.config.WxConfig;
+import org.hamster.weixinmp.dao.entity.base.WxBaseRespEntity;
 
 
 /**
@@ -19,19 +21,11 @@ import lombok.ToString;
  * 
  */
 @Entity
-@Table(name = "wx_resp_text")
+@Table(name = WxConfig.TABLE_PREFIX + "resp_text")
+@Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class WxRespText extends WxBaseRespEntity {
+public class WxRespTextEntity extends WxBaseRespEntity {
+	@Column(name = "content", length = WxConfig.COL_LEN_CONTENT, nullable = false)
 	private String content;
-
-	@Column(name = "content", length = 2048, nullable = false)
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
 }

@@ -3,7 +3,7 @@
  */
 package org.hamster.weixinmp.dao.repository.resp;
 
-import org.hamster.weixinmp.dao.entity.resp.WxRespPicDesc;
+import org.hamster.weixinmp.dao.entity.resp.WxRespPicDescEntity;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 
@@ -12,5 +12,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  * @version Jul 28, 2013
  *
  */
-public interface WxRespPicDescDao extends PagingAndSortingRepository<WxRespPicDesc, Long> {
+public interface WxRespPicDescDao extends PagingAndSortingRepository<WxRespPicDescEntity, Long> {
 }
