@@ -34,7 +34,7 @@ public class WxController {
 	@Autowired
 	private WxMessageService messageService;
 	
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(method = {RequestMethod.GET,})
 	public @ResponseBody
 	String authGet(@RequestParam("signature") String signature,
 			@RequestParam("timestamp") String timestamp,
