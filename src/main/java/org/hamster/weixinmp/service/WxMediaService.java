@@ -57,6 +57,7 @@ public class WxMediaService {
 		}
 
 		Map<String, String> params = WxUtil.getAccessTokenParams(accessToken);
+		System.out.println(typeString);
 		params.put("type", typeString);
 		ContentBody contentBody = new ByteArrayBody(content, ContentType.MULTIPART_FORM_DATA, "name.jpg");
 		entityBuilder.addPart("media", contentBody);

@@ -23,6 +23,8 @@
 		<junit.version>4.11</junit.version>
 		<gson.version>2.2.4</gson.version>
 		<guava.version>15.0</guava.version>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<dependencyManagement>
@@ -78,6 +80,11 @@
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-simple</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-log4j12</artifactId>
 				<version>${slf4j.version}</version>
 			</dependency>
@@ -104,11 +111,11 @@
 				<version>${httpclient.version}</version>
 			</dependency>
 			<dependency>
-	<groupId>org.apache.httpcomponents</groupId>
-	<artifactId>httpmime</artifactId>
-	<version>${httpclient.version}</version>
-</dependency>
-			
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpmime</artifactId>
+				<version>${httpclient.version}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-lang3</artifactId>
@@ -193,6 +200,10 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>

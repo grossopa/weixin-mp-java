@@ -39,7 +39,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class WxMessageService {
 	
-	@Autowired
+	@Autowired(required=false)
 	List<WxMessageHandlerIfc> handlers;
 	
 	public WxBaseMsgEntity parseXML(String xml) throws DocumentException,

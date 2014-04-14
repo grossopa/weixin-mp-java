@@ -45,7 +45,6 @@ public class WxMenuServiceTest extends AbstractWxServiceTest {
 		WxMenuCreateJson dummyJson = gson.fromJson(MENU_CREATE_JSON,
 				WxMenuCreateJson.class);
 
-		menuService.menuGet(accessToken);
 		menuService.menuCreate(accessToken, dummyJson.getButton());
 
 		System.out.println(menuService.menuGet(accessToken));

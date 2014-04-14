@@ -19,6 +19,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.hamster.weixinmp.test.xml.WxXMLUtilTest;
+import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -31,7 +32,7 @@ public class WxControllerManualTest {
 	public static final String WX_URL = "http://localhost:8080/rest/weixinmp";
 	
 	@Test 
-	//@Ignore
+	@Ignore
 	public void testPostMsgText() throws ClientProtocolException, IOException {
 		HttpClient httpclient = HttpClientBuilder.create().build();
 		HttpPost httppost = new HttpPost(WX_URL);

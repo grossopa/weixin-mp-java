@@ -6,10 +6,10 @@ package org.hamster.weixinmp.service;
 import static org.hamster.weixinmp.util.WxUtil.getAccessTokenParams;
 import static org.hamster.weixinmp.util.WxUtil.sendRequest;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.Consts;
 import org.apache.http.entity.StringEntity;
 import org.hamster.weixinmp.config.WxConfig;
 import org.hamster.weixinmp.dao.entity.menu.WxMenuBtnEntity;
@@ -48,9 +48,13 @@ public class WxMenuService {
 		WxMenuCreateJson wrapper = new WxMenuCreateJson(entities);
 		wrapper.setButton(entities);
 
-		return sendRequest(config.getMenuCreateUrl(), HttpMethod.POST, params,
-				new StringEntity(gson.toJson(wrapper), Consts.UTF_8),
-				WxRespCode.class);
+		try {
+			return sendRequest(config.getMenuCreateUrl(), HttpMethod.POST, params,
+					new StringEntity(gson.toJson(wrapper)),
+					WxRespCode.class);
+		} catch (UnsupportedEncodingException e) {
+			throw new WxException(e);
+		}
 	}
 	
 	public List<WxMenuBtnEntity> menuGet(String accessToken) throws WxException {

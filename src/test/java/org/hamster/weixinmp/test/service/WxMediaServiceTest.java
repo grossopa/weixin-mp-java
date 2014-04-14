@@ -15,6 +15,7 @@ import org.hamster.weixinmp.exception.WxException;
 import org.hamster.weixinmp.service.WxAuthService;
 import org.hamster.weixinmp.service.WxMediaService;
 import org.hamster.weixinmp.test.base.AbstractWxServiceTest;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -32,6 +33,7 @@ public class WxMediaServiceTest extends AbstractWxServiceTest {
 	WxMediaService mediaService;
 
 	@Test
+	@Ignore
 	public void testMedia() throws WxException, FileNotFoundException, IOException {
 		File imageFile = new File("src/test/resources/media/cat.jpg");
 		byte[] content = IOUtils.toByteArray(new FileReader(imageFile));

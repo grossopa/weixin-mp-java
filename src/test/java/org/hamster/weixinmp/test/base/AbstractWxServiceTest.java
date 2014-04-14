@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hamster.weixinmp.config.WxConfig;
@@ -22,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @version Jan 5, 2014
  * 
  */
-public class AbstractWxServiceTest extends AbstractServiceTest {
+public abstract class AbstractWxServiceTest extends AbstractServiceTest {
 	
 	public static final String TEST_FOLDER = "src/test/resources/tmp";
 	public static final String ACCESS_TOKEN_FILE = TEST_FOLDER + "/accessToken.txt";
@@ -40,7 +41,8 @@ public class AbstractWxServiceTest extends AbstractServiceTest {
 	public void setUp() throws WxException, IOException {
 		if (StringUtils.isBlank(accessToken)) {
 			File testConfigFile = new File(ACCESS_TOKEN_FILE);
-			if (!testConfigFile.exists()) {
+			Date currentDate = new Date();
+			if (!testConfigFile.exists() || currentDate.getTime() - testConfigFile.lastModified() > 86400000) {
 				WxAuth auth = authService.getAccessToken(config.getAppid(), config.getAppsecret());
 				this.accessToken = auth.getAccessToken();
 				new File(TEST_FOLDER).mkdirs();
