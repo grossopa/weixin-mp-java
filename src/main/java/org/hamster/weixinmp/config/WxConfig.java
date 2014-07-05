@@ -17,11 +17,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class WxConfig {
 	public static final String TABLE_PREFIX = "wx_";
-	public static final int COL_LEN_URL  = 1024;
-	public static final int COL_LEN_CONTENT  = 4000;
-	public static final int COL_LEN_TITLE  = 200;
+	
+	public static final int COL_LEN_URL        = 1024;
+	public static final int COL_LEN_CONTENT    = 4000;
+	public static final int COL_LEN_TITLE      = 200;
 	public static final int COL_LEN_USER_NAME  = 100;
 	public static final int COL_LEN_INDICATOR  = 64;
+	
+	public static final String USER_SYSTEM     = "System";
 	
 	private @Value("#{wxProperties.wx_token}") String token;
 	private @Value("#{wxProperties.wx_appid}") String appid;
@@ -36,6 +39,7 @@ public class WxConfig {
 	private @Value("#{wxProperties.wx_custom_send_url}") String customSendUrl;
 
 	private @Value("#{wxProperties.wx_media_upload_url}") String mediaUploadUrl;
+	private @Value("#{wxProperties.wx_media_download_url}") String mediaDownloadUrl;
 	
 	private @Value("#{wxProperties.wx_qrcode_create_url}") String qrcodeCreateUrl;
 	

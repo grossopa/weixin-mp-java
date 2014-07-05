@@ -5,9 +5,11 @@ package org.hamster.weixinmp.model.send;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import org.hamster.weixinmp.model.send.item.SendItemVideoJson;
+import org.hamster.weixinmp.model.send.base.AbstractCustomSendJson;
+import org.hamster.weixinmp.model.send.item.SendItemVoiceJson;
 
 /**
  * @author grossopaforever@gmail.com
@@ -15,10 +17,14 @@ import org.hamster.weixinmp.model.send.item.SendItemVideoJson;
  *
  */
 @Data
+@EqualsAndHashCode(callSuper=true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class SendVoiceJson {
-	private String touser;
-	private String msgtype;
-	private SendItemVideoJson video;
+public class SendVoiceJson extends AbstractCustomSendJson {
+    
+    @Override
+    public String getMsgtype() {
+        return "voice";
+    }
+	private SendItemVoiceJson voice;
 }

@@ -78,8 +78,7 @@ public class WxUtil {
 			} else {
 				Gson gson = new Gson();
 
-				if (respBody.indexOf("{\"errcode\"") == 0
-						|| respBody.indexOf("{\"errmsg\"") == 0) {
+				if (respBody.indexOf("{\"errcode\"") == 0 || respBody.indexOf("{\"errmsg\"") == 0) {
 					WxRespCode exJson = gson.fromJson(respBody,
 							WxRespCode.class);
 					if (WxRespCode.class.getName().equals(

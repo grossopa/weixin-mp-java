@@ -16,4 +16,10 @@ import org.springframework.stereotype.Repository;
 public interface WxItemVoiceDao extends
 		PagingAndSortingRepository<WxItemVoiceEntity, Long> {
 
+    /**
+     * @param mediaId
+     * @return
+     */
+    WxItemVoiceEntity findByMediaId(String mediaId);
+
 }

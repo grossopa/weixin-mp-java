@@ -3,10 +3,12 @@
  */
 package org.hamster.weixinmp.model.send;
 
+import org.hamster.weixinmp.model.send.base.AbstractCustomSendJson;
 import org.hamster.weixinmp.model.send.item.SendItemMusicJson;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -15,11 +17,15 @@ import lombok.NoArgsConstructor;
  *
  */
 @Data
+@EqualsAndHashCode(callSuper=true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class SendMusicJson {
-	private String touser;
-	private String msgtype;
+public class SendMusicJson extends AbstractCustomSendJson {
+    @Override
+    public String getMsgtype() {
+        return "music";
+    }
+    
 	private SendItemMusicJson music;
 
 }

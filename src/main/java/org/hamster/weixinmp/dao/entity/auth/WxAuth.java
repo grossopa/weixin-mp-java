@@ -38,8 +38,12 @@ public class WxAuth extends WxBaseEntity {
 	private String appid;
 	@Column(name = "secret", length = 100, nullable = false)
 	private String secret;
+	
+	/**
+	 * 
+	 */
 	@SerializedName("access_token")
-	@Column(name = "access_token", length = 200, nullable = false)
+	@Column(name = "access_token", length = 512, nullable = false)
 	private String accessToken;
 	@SerializedName("expires_in")
 	@Column(name = "expires_in", nullable = false)

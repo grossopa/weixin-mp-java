@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
  * 
  */
 @Repository
-public interface WxItemImageDao extends
-		PagingAndSortingRepository<WxItemImageEntity, Long> {
-
+public interface WxItemImageDao extends PagingAndSortingRepository<WxItemImageEntity, Long> {
+    WxItemImageEntity findByMediaId(String mediaId);
 }

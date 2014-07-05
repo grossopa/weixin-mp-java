@@ -3,11 +3,13 @@
  */
 package org.hamster.weixinmp.model.send;
 
+import org.hamster.weixinmp.model.send.base.AbstractCustomSendJson;
 import org.hamster.weixinmp.model.send.item.SendItemImageJson;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author grossopaforever@gmail.com
@@ -15,11 +17,15 @@ import lombok.NoArgsConstructor;
  *
  */
 @Data
+@EqualsAndHashCode(callSuper=true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class SendImageJson {
-	private String touser;
-	private String msgtype;
+public class SendImageJson extends AbstractCustomSendJson {
+    @Override
+    public String getMsgtype() {
+        return "image";
+    }
+    
 	private SendItemImageJson image;
 
 }

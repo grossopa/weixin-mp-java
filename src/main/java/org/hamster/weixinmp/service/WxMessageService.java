@@ -32,9 +32,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * @author grossopaforever@gmail.com
- * @version Dec 30, 2013
+ * 当普通微信用户向公众账号发消息时，微信服务器将POST消息的XML数据包到开发者填写的URL上。各消息类型的推送XML数据包结构如下。
  * 
+ * <p>微信服务器在五秒内收不到响应会断掉连接，并且重新发起请求，总共重试三次</p>
+ *
+ * <p>关于重试的消息排重，推荐使用msgid排重。</p>
+ *
+ * <p>假如服务器无法保证在五秒内处理并回复，可以直接回复空串，微信服务器不会对此作任何处理，并且不会发起重试。</p>
+ * 
+ * @author grossopaforever@gmail.com
+ * @version 1.1
  */
 @Service
 public class WxMessageService {
@@ -121,7 +128,6 @@ public class WxMessageService {
 		return result;
 	}
 	
-
 }
 
 class WxMessageHandlerComparator implements Comparator<WxMessageHandlerIfc> {
