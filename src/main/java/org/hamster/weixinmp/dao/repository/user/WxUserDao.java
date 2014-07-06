@@ -16,4 +16,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface WxUserDao extends PagingAndSortingRepository<WxUserEntity, Long> {
+
+    /**
+     * @param openid
+     */
+    WxUserEntity findByOpenId(String openid);
 }

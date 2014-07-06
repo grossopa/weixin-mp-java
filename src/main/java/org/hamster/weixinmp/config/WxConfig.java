@@ -45,6 +45,11 @@ public class WxConfig {
 	
 	private @Value("#{wxProperties.wx_user_info_url}") String userInfoUrl;
 	private @Value("#{wxProperties.wx_user_get_url}") String userGetUrl;
+	private @Value("#{wxProperties.wx_user_oauth_url}") String userOAuthUrl;
+	private @Value("#{wxProperties.wx_user_oauth_redirect_uri}") String userOAuthRedirectUri;
+	private @Value("#{wxProperties.wx_user_oauth_access_token_url}") String userOAuthAccessTokenUrl;
+	private @Value("#{wxProperties.wx_user_oauth_refresh_token_url}") String userOAuthRefreshTokenUrl;
+	private @Value("#{wxProperties.wx_user_oauth_user_info_url}") String userOAuthUserInfoUrl;
 	
 	private @Value("#{wxProperties.wx_groups_create_url}") String groupsCreateUrl;
 	private @Value("#{wxProperties.wx_groups_get_url}") String groupsGetUrl;
