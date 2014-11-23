@@ -268,8 +268,7 @@ public class WxMessageCustomService {
         params.put("access_token", accessToken);
         Gson gson = new Gson();
         StringEntity requestEntity = new StringEntity(gson.toJson(json), Charsets.UTF_8);
-        String result = WxUtil.sendRequest(config.getCustomSendUrl(), HttpMethod.POST, params, requestEntity,
-                String.class);
+        String result = WxUtil.sendRequest(config.getCustomSendUrl(), HttpMethod.POST, params, requestEntity, String.class);
 
         storageService.saveJson(json, result);
         return result;

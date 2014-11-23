@@ -57,4 +57,8 @@ public abstract class AbstractWxServiceTest extends AbstractServiceTest {
 			}
 		}
 	}
+	
+	public void result(String result, String... params) {
+	    
+	}
 }

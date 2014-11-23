@@ -6,9 +6,11 @@ package org.hamster.weixinmp.controller.util;
 import java.util.List;
 
 import org.hamster.weixinmp.dao.entity.menu.WxMenuBtnEntity;
+import org.hamster.weixinmp.dao.entity.msg.mass.WxMsgMassSentItemEntity;
 import org.hamster.weixinmp.model.WxAccessTokenJson;
 import org.hamster.weixinmp.model.WxRespCode;
 import org.hamster.weixinmp.model.menu.WxMenuCreateJson;
+import org.hamster.weixinmp.model.send.mass.WxMassRespCode;
 
 import com.google.gson.Gson;
 
@@ -36,9 +38,22 @@ public class WxJsonUtil {
 		return null;
 	}
 	
+	public static final WxMassRespCode toWxMassErrorJson(String errorResult) {
+	    if (errorResult != null && (errorResult.startsWith("{\"errcode")
+	            || errorResult.startsWith("{\"errmsg"))) {
+	        return new Gson().fromJson(errorResult, WxMassRespCode.class);
+	    }
+	    return null;
+	}
+	
 	public static final WxAccessTokenJson toAccessTokenJson(String result) {
 		return new Gson().fromJson(result, WxAccessTokenJson.class);
 	}
+	
+	public static final WxMsgMassSentItemEntity toWxMsgMassSentItem(String result) {
+	    return new Gson().fromJson(result, WxMsgMassSentItemEntity.class);
+	}
+	
 	
 
 }

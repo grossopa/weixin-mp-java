@@ -23,6 +23,7 @@ import org.hamster.weixinmp.dao.entity.msg.WxMsgImageEntity;
 import org.hamster.weixinmp.dao.entity.msg.WxMsgLinkEntity;
 import org.hamster.weixinmp.dao.entity.msg.WxMsgLocEntity;
 import org.hamster.weixinmp.dao.entity.msg.WxMsgTextEntity;
+import org.hamster.weixinmp.dao.entity.msg.mass.WxMsgMassSentItemEntity;
 import org.hamster.weixinmp.dao.entity.resp.WxRespMusicEntity;
 import org.hamster.weixinmp.dao.entity.resp.WxRespPicDescEntity;
 import org.hamster.weixinmp.dao.entity.resp.WxRespTextEntity;
@@ -44,6 +45,7 @@ import org.hamster.weixinmp.dao.repository.msg.WxMsgLocDao;
 import org.hamster.weixinmp.dao.repository.msg.WxMsgTextDao;
 import org.hamster.weixinmp.dao.repository.msg.WxMsgVideoDao;
 import org.hamster.weixinmp.dao.repository.msg.WxMsgVoiceDao;
+import org.hamster.weixinmp.dao.repository.msg.mass.WxMsgMassSentItemDao;
 import org.hamster.weixinmp.dao.repository.resp.WxRespImageDao;
 import org.hamster.weixinmp.dao.repository.resp.WxRespMusicDao;
 import org.hamster.weixinmp.dao.repository.resp.WxRespPicDescDao;
@@ -127,6 +129,9 @@ public class WxStorageService {
     protected WxGroupDao groupDao;
     @Autowired(required = false)
     protected WxUserDao userDao;
+    
+    @Autowired(required = false)
+    protected WxMsgMassSentItemDao msgMassSentItemDao;
 
     @Setter
     protected String token;
@@ -326,6 +331,13 @@ public class WxStorageService {
         entity.setPrivileges(StringUtils.join(json.getPrivilege(), ","));
         entity.setSex(json.getSex());
         userDao.save(entity);
+        return entity;
+    }
+    
+    public WxMsgMassSentItemEntity save(WxMsgMassSentItemEntity entity) {
+        if (msgMassSentItemDao != null) {
+            msgMassSentItemDao.save(entity);
+        }
         return entity;
     }
 }

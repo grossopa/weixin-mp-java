@@ -37,4 +37,15 @@ public class WxMsgEventEntity extends WxBaseMsgEntity {
 	private Double longitude;
 	@Column(name = "precision", nullable = true)
 	private Double precision;
+	
+    @Column(name = "status", length = WxConfig.COL_LEN_INDICATOR, nullable = true)
+    private String status;
+    @Column(name = "total_count", nullable = true)
+    private Integer totalCount;
+    @Column(name = "filter_count", nullable = true)
+    private Integer filterCount;
+    @Column(name = "sent_count", nullable = true)
+    private Integer sentCount;
+    @Column(name = "error_count", nullable = true)
+    private Integer errorCount;
 }

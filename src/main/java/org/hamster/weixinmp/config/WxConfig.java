@@ -57,6 +57,10 @@ public class WxConfig {
 	private @Value("#{wxProperties.wx_groups_update_url}") String groupsUpdateUrl;
 	private @Value("#{wxProperties.wx_groups_members_update_url}") String groupsMembersUpdateUrl;
 	
-	
+	private @Value("#{wxProperties.wx_msg_mass_uploadnews}") String msgMassUploadNews;
+	private @Value("#{wxProperties.wx_msg_mass_sendall}") String msgMassSendAll;
+	private @Value("#{wxProperties.wx_msg_mass_uploadvideo}") String msgMassUploadVideo;
+	private @Value("#{wxProperties.wx_msg_mass_masssend}") String msgMassMassSend;
+	private @Value("#{wxProperties.wx_msg_mass_massdelete}") String msgMassMassDelete;
 	
 }
